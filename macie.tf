@@ -12,12 +12,12 @@ resource "aws_macie2_classification_job" "macie" {
   #   daily_schedule = "true"
   # }
   job_type = "ONE_TIME"
-  name     = "${var.aws_s3_bucket_name}-macie-job"
+  name     = "${local.aws_s3_bucket_name}-macie-job"
 
   s3_job_definition {
     bucket_definitions {
       account_id = data.aws_caller_identity.current.account_id
-      buckets    = [var.aws_s3_bucket_name]
+      buckets    = [local.aws_s3_bucket_name]
     }
   }
 
@@ -31,7 +31,7 @@ resource "aws_macie2_classification_job" "macie" {
 
 resource "aws_macie2_classification_export_configuration" "macie" {
   s3_destination {
-    bucket_name = "${var.aws_s3_bucket_name}-audit"
+    bucket_name = "${local.aws_s3_bucket_name}-audit"
     key_prefix  = "macie/"
     kms_key_arn = aws_kms_key.audit.arn
   }

@@ -24,7 +24,7 @@ resource "aws_iam_role_policy_attachment" "cloudtrail_policy_attachment" {
 
 # Configure CloudTrail with the S3 bucket and IAM role
 resource "aws_cloudtrail" "cloudtrail" {
-  name                          = "${var.aws_s3_bucket_name}-cloudtrail"
+  name                          = "${local.aws_s3_bucket_name}-cloudtrail"
   s3_bucket_name                = module.audit_s3_bucket.s3_bucket_id
   s3_key_prefix                 = "cloudtrail"
   is_multi_region_trail         = false
