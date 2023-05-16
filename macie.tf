@@ -2,17 +2,16 @@
 resource "aws_macie2_account" "macie" {
   finding_publishing_frequency = "FIFTEEN_MINUTES"
   status                       = "ENABLED"
-  # status                       = "PAUSED"
 }
 
 # Associate the S3 bucket with Amazon Macie
 resource "aws_macie2_classification_job" "macie" {
-  # job_type = "SCHEDULED"
-  # schedule_frequency {
-  #   daily_schedule = "true"
-  # }
-  job_type = "ONE_TIME"
-  name     = "${local.aws_s3_bucket_name}-macie-job"
+  job_type = "SCHEDULED"
+  schedule_frequency {
+    daily_schedule = "true"
+  }
+  # job_type = "ONE_TIME"
+  # name     = "${local.aws_s3_bucket_name}-macie-job"
 
   s3_job_definition {
     bucket_definitions {

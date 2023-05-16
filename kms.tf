@@ -5,7 +5,7 @@ resource "aws_kms_key" "audit" {
 }
 
 resource "aws_kms_alias" "audit" {
-  name          = "alias/${var.aws_s3_bucket_name}-audit-key"
+  name          = "alias/${local.aws_s3_bucket_name}-audit-key"
   target_key_id = aws_kms_key.audit.key_id
 }
 
@@ -43,8 +43,8 @@ resource "aws_kms_key_policy" "audit" {
           },
           ArnLike = {
             "aws:SourceArn" = [
-              "arn:aws:macie2:${var.aws_region}:${data.aws_caller_identity.current.account_id}:export-configuration:*",
-              "arn:aws:macie2:${var.aws_region}:${data.aws_caller_identity.current.account_id}:classification-job/*"
+              "arn:aws:macie2:${local.aws_region}:${data.aws_caller_identity.current.account_id}:export-configuration:*",
+              "arn:aws:macie2:${local.aws_region}:${data.aws_caller_identity.current.account_id}:classification-job/*"
             ]
           }
         }
