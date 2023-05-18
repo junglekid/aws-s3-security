@@ -1,14 +1,22 @@
-# aws-3-tier-app
+# aws-s3-security
 ## Use TerraForm to build the following:
-* Lambda functions
-* API Gateway
-* API Gateway resources
-* API Gateway deployments
-* DynamoDB Tables and populate table
+* AWS S3 Buckets
+* AWS Cloudtrail
+* AWS KMS
+* AWS Macie
+* AWS Config
+* AWS Eventbridge
 * IAM policies and roles
-## Set variables in variables.tf
-* my_name
+## Set variables in locals.tf
+* aws region
+* aws profile
 * tags
+* s3 bucket prefix name
+## Update S3 Backend in provider.tf
+* bucket
+* key
+* profile
+* dynamodb_table
 ## Run Terraform
 ```
 terraform init
@@ -16,12 +24,9 @@ terraform validate
 terraform plan -out=plan.out
 terraform apply plan.out
 ```
-## Test API Gateway > Lambda > DynamoDB
-```
-```
-## Test API Gateway > Lambda > DynamoDB
-```
-```
+## Test AWS CloudTrail
+## Test AWS Macie
+## Test AWS Config
 ## Clean up Terraform
 ```
 terraform state rm aws_macie2_classification_job.macie

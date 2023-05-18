@@ -104,8 +104,8 @@ resource "aws_config_config_rule" "s3" {
   # }
 
   scope {
-    tag_key   = "Owner"
-    tag_value = local.owner
+    tag_key   = "Project"
+    tag_value = local.project
   }
 
   depends_on = [aws_config_configuration_recorder.config]
