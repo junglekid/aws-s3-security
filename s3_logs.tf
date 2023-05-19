@@ -35,7 +35,7 @@ module "logs_s3_bucket" {
   access_log_delivery_policy_source_buckets = [
     module.audit_s3_bucket.s3_bucket_arn,
     module.logs_s3_bucket.s3_bucket_arn,
-    module.poc_s3_bucket.s3_bucket_arn,
+    module.lab_s3_bucket.s3_bucket_arn,
   ]
 
   lifecycle_rule = [

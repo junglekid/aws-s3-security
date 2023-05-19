@@ -12,6 +12,33 @@ resource "aws_config_configuration_recorder" "config" {
   }
 }
 
+# Configure AWS Config Rules for monitoring Amazon S3
+resource "aws_config_config_rule" "s3" {
+  for_each = {
+    s3-bucket-versioning-enabled             = "S3_BUCKET_VERSIONING_ENABLED"
+    s3-bucket-ssl-requests-only              = "S3_BUCKET_SSL_REQUESTS_ONLY"
+    s3-bucket-server-side-encryption-enabled = "S3_BUCKET_SERVER_SIDE_ENCRYPTION_ENABLED"
+    s3-bucket-logging-enabled                = "S3_BUCKET_LOGGING_ENABLED"
+    s3-bucket-acl-prohibited                 = "S3_BUCKET_ACL_PROHIBITED"
+    s3-event-notifications-enabled           = "S3_EVENT_NOTIFICATIONS_ENABLED"
+    s3-bucket-level-public-access-prohibited = "S3_BUCKET_LEVEL_PUBLIC_ACCESS_PROHIBITED"
+  }
+
+  name = "${local.aws_s3_bucket_name}-${each.key}-config-rule"
+
+  source {
+    owner             = "AWS"
+    source_identifier = each.value
+  }
+
+  scope {
+    tag_key   = "Project"
+    tag_value = local.project
+  }
+
+  depends_on = [aws_config_configuration_recorder.config]
+}
+
 # Enable S3 bucket resource type in AWS Config
 resource "aws_config_delivery_channel" "config" {
   name = "${local.aws_s3_bucket_name}-s3-bucket-delivery-channel"
@@ -78,35 +105,4 @@ resource "aws_config_configuration_recorder_status" "config" {
 resource "aws_iam_role_policy_attachment" "config_policy_attachment" {
   role       = aws_iam_role.config_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWS_ConfigRole"
-}
-
-resource "aws_config_config_rule" "s3" {
-  for_each = {
-    s3-bucket-versioning-enabled             = "S3_BUCKET_VERSIONING_ENABLED"
-    s3-bucket-ssl-requests-only              = "S3_BUCKET_SSL_REQUESTS_ONLY"
-    s3-bucket-server-side-encryption-enabled = "S3_BUCKET_SERVER_SIDE_ENCRYPTION_ENABLED"
-    s3-bucket-logging-enabled                = "S3_BUCKET_LOGGING_ENABLED"
-    s3-bucket-acl-prohibited                 = "S3_BUCKET_ACL_PROHIBITED"
-    s3-event-notifications-enabled           = "S3_EVENT_NOTIFICATIONS_ENABLED"
-    s3-bucket-level-public-access-prohibited = "S3_BUCKET_LEVEL_PUBLIC_ACCESS_PROHIBITED"
-  }
-
-  name = "${local.aws_s3_bucket_name}-${each.key}-config-rule"
-
-  source {
-    owner             = "AWS"
-    source_identifier = each.value
-  }
-
-  # scope {
-  #   compliance_resource_types = ["AWS::S3::Bucket"]
-  #   compliance_resource_id    = local.aws_s3_bucket_name
-  # }
-
-  scope {
-    tag_key   = "Project"
-    tag_value = local.project
-  }
-
-  depends_on = [aws_config_configuration_recorder.config]
 }

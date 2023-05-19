@@ -1,11 +1,13 @@
-# aws-s3-security
+# Amazon S3 Security
+![Aamzon S3 Security](./images/aws-s3-security.png)
 ## Use TerraForm to build the following:
-* AWS S3 Buckets
-* AWS Cloudtrail
-* AWS KMS
-* AWS Macie
+* Amazon S3 Buckets
+* AWS CloudTrail
+* AWS Key Management Service (KMS)
+* Amazon Macie
 * AWS Config
-* AWS Eventbridge
+* Amazon Simple Notification Service (SNS)
+* Amazon Eventbridge
 * IAM policies and roles
 ## Set variables in locals.tf
 * aws region
@@ -18,15 +20,21 @@
 * profile
 * dynamodb_table
 ## Run Terraform
-```
-terraform init
-terraform validate
-terraform plan -out=plan.out
-terraform apply plan.out
-```
-## Test AWS CloudTrail
-## Test AWS Macie
-## Test AWS Config
+1. Run the following Terraform commands
+    ```
+    terraform init
+    terraform validate
+    terraform plan -out=plan.out
+    terraform apply plan.out
+    ```
+2. Check Terraform apply results
+    
+    ![](./images/terraform-apply.png)
+
+## Validate Amazon S3 Settings
+## Validate AWS Macie
+## Validate AWS Config
+## Test changing AWS S3 Bucket 
 ## Clean up Terraform
 ```
 terraform state rm aws_macie2_classification_job.macie

@@ -1,4 +1,4 @@
-module "poc_s3_bucket" {
+module "lab_s3_bucket" {
   source = "terraform-aws-modules/s3-bucket/aws"
 
   bucket        = local.aws_s3_bucket_name
@@ -58,37 +58,13 @@ module "poc_s3_bucket" {
   }
 }
 
-# # Upload the fake_ssn.txt file to the S3 bucket
-# resource "aws_s3_object" "fake_ssn" {
-#   key    = "fake_ssn.txt"
-#   bucket = module.poc_s3_bucket.s3_bucket_id
-#   source = "./files/fake_ssn.txt"
-#   etag   = filemd5("./files/fake_ssn.txt")
-
-#   tags = {
-#     Classification = "Sensitive"
-#   }
-# }
-
-# # Upload the fake_credit_card.txt file to the S3 bucket
-# resource "aws_s3_object" "fake_credit_card" {
-#   key    = "fake_credit_card.txt"
-#   bucket = module.poc_s3_bucket.s3_bucket_id
-#   source = "./files/fake_credit_card.txt"
-#   etag   = filemd5("./files/fake_credit_card.txt")
-
-#   tags = {
-#     Classification = "Sensitive"
-#   }
-# }
-
+# Upload 2 files containing fake sensitive data
 resource "aws_s3_object" "sensitive_files" {
-  bucket   = module.poc_s3_bucket.s3_bucket_id
+  bucket   = module.lab_s3_bucket.s3_bucket_id
   for_each = fileset("./files/", "**/*")
   key      = each.value
   source   = "./files/${each.value}"
   etag     = filemd5("./files/${each.value}")
-  # content_type = lookup(local.mime_types, split(".", each.value)[length(split(".", each.value)) - 1])
 
   tags = {
     Classification = "Sensitive"
