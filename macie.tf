@@ -4,6 +4,7 @@ resource "aws_macie2_account" "macie" {
   status                       = "ENABLED"
 }
 
+# Export Amazon Macie findings to Amazon S3 bucket
 resource "aws_macie2_classification_export_configuration" "macie" {
   s3_destination {
     bucket_name = "${local.aws_s3_bucket_name}-audit"
