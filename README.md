@@ -37,6 +37,6 @@
 ## Test changing AWS S3 Bucket 
 ## Clean up Terraform
 ```
-terraform state rm aws_macie2_classification_job.macie
+terraform state rm aws_macie2_classification_job.macie_one_time
 terraform destroy
 ```
