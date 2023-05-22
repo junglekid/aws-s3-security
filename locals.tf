@@ -15,5 +15,5 @@ locals {
   aws_s3_bucket_name = "dallin-s3-lab"
 
   # Email Address to use for SNS Notifications with Eventbridge
-  sns_endpoint_email_address = "dallin.rasmuson@bluesentry.cloud"
+  sns_endpoint_email_address = "first.last@example.com" # Update with your email address
 }
